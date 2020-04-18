@@ -1,7 +1,6 @@
 package access_token
 
 import (
-	"fmt"
 	"strings"
 
 	"github.com/james077/bookstore_oauth-api/src/domain/access_token"
@@ -31,7 +30,7 @@ func NewService(usersRepo rest.RestUsersRepository, dbRepo db.DbRepository) Serv
 func (s *service) GetById(accessTokenId string) (*access_token.AccessToken, rest_errors.RestErr) {
 	accessTokenId = strings.TrimSpace(accessTokenId)
 	if len(accessTokenId) == 0 {
-		return nil, rest_errors.NewBadRequestError("invalid access token id")
+		return nil, rest_errors.NewBadRequestError("Id token de acceso inválido")
 	}
 	accessToken, err := s.dbRepo.GetById(accessTokenId)
 	if err != nil {
@@ -41,21 +40,20 @@ func (s *service) GetById(accessTokenId string) (*access_token.AccessToken, rest
 }
 
 func (s *service) Create(request access_token.AccessTokenRequest) (*access_token.AccessToken, rest_errors.RestErr) {
-	fmt.Println("access_token_servoce.go line 44")
 	if err := request.Validate(); err != nil {
 		return nil, err
 	}
-	// Authenticate the user against the Users API:
+	// Autentica al usuario contra la API de usuarios:
 	user, err := s.restUsersRepo.LoginUser(request.Username, request.Password)
 	if err != nil {
 		return nil, err
 	}
 
-	// Generate a new access token:
+	// Genera un nuevo token de acceso
 	at := access_token.GetNewAccessToken(user.Id)
 	at.Generate()
 
-	// Save the new access token in Cassandra:
+	// Guarda el nuevo token de acceso en Cassandra:
 	if err := s.dbRepo.Create(at); err != nil {
 		return nil, err
 	}

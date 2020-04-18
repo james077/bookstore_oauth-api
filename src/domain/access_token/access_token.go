@@ -37,10 +37,10 @@ func (at *AccessTokenRequest) Validate() rest_errors.RestErr {
 		break
 
 	default:
-		return rest_errors.NewBadRequestError("invalid grant_type parameter")
+		return rest_errors.NewBadRequestError("Parametro grant_type inválido")
 	}
 
-	//TODO: Validate parameters for each grant_type
+	//TODO: Validar parametros por cada grant_type
 	return nil
 }
 
@@ -54,16 +54,16 @@ type AccessToken struct {
 func (at *AccessToken) Validate() rest_errors.RestErr {
 	at.AccessToken = strings.TrimSpace(at.AccessToken)
 	if at.AccessToken == "" {
-		return rest_errors.NewBadRequestError("invalid access token id")
+		return rest_errors.NewBadRequestError("Id de token de acceso no es válido")
 	}
 	if at.UserId <= 0 {
-		return rest_errors.NewBadRequestError("invalid user id")
+		return rest_errors.NewBadRequestError("Id de usuario no es válido")
 	}
 	if at.ClientId <= 0 {
-		return rest_errors.NewBadRequestError("invalid client id")
+		return rest_errors.NewBadRequestError("Id de cliente no es válido")
 	}
 	if at.Expires <= 0 {
-		return rest_errors.NewBadRequestError("invalid expiration time")
+		return rest_errors.NewBadRequestError("Tiempo de expiración inválido")
 	}
 	return nil
 }

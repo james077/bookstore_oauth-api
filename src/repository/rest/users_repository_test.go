@@ -81,7 +81,7 @@ func TestLoginUserInvalidUserJsonResponse(t *testing.T) {
 		URL:          "https://localhost:8080/users/login",
 		ReqBody:      `{"email":"email@gmail.com","password":"the-password"}`,
 		RespHTTPCode: http.StatusOK,
-		RespBody:     `{"id": "1", "first_name": "Fede", "last_name": "León", "email": "martinezjames077@gmail.com"}`,
+		RespBody:     `{"id": "1", "first_name": "James", "last_name": "Martinez", "email": "martinezjames077@gmail.com"}`,
 	})
 
 	repository := usersRepository{}
@@ -101,7 +101,7 @@ func TestLoginUserNoError(t *testing.T) {
 		URL:          "https://localhost:8080/users/login",
 		ReqBody:      `{"email":"email@gmail.com","password":"the-password"}`,
 		RespHTTPCode: http.StatusOK,
-		RespBody:     `{"id": 1, "first_name": "Fede", "last_name": "León", "email": "martinezjames077@gmail.com"}`,
+		RespBody:     `{"id": 1, "first_name": "James", "last_name": "Martinez", "email": "martinezjames077@gmail.com"}`,
 	})
 
 	repository := usersRepository{}
@@ -111,7 +111,7 @@ func TestLoginUserNoError(t *testing.T) {
 	assert.Nil(t, err)
 	assert.NotNil(t, user)
 	assert.EqualValues(t, 1, user.Id)
-	assert.EqualValues(t, "Fede", user.FirstName)
-	assert.EqualValues(t, "León", user.LastName)
+	assert.EqualValues(t, "James", user.FirstName)
+	assert.EqualValues(t, "Martinez", user.LastName)
 	assert.EqualValues(t, "martinezjames077@gmail.com", user.Email)
 }
